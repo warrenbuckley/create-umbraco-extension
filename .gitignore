@@ -1,0 +1,23 @@
+# Compiled output
+dist/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# macOS
+.DS_Store
+
+# Editor directories
+.idea/
+
+# Test output scaffolded into /tmp for manual verification
+# (test:cli:write target — not committed)
+/tmp/create-umb-test/
+
+# Environment files (should never be committed)
+.env
+.env.local

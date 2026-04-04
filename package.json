@@ -1,0 +1,47 @@
+{
+  "name": "create-umbraco-extension",
+  "version": "0.1.0",
+  "description": "Scaffold Umbraco backoffice extensions interactively",
+  "type": "module",
+  "bin": {
+    "create-umbraco-extension": "dist/index.js"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./types": "./dist/types.js"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "keywords": [
+    "umbraco",
+    "scaffold",
+    "cli",
+    "backoffice",
+    "extensions",
+    "create"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/warrenbuckley/create-umbraco-extension"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "dev": "npm run build && node dist/index.js",
+    "lint": "oxlint src/",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cli": "npm run build && node dist/index.js --type dashboard --prefix Dev.Test --name \"Test Dashboard\" --umbraco-version 17 --section Umb.Section.Content --example --dry-run --json",
+    "test:cli:write": "npm run build && node dist/index.js --type dashboard --prefix Dev.Test --name \"Test Dashboard\" --umbraco-version 17 --section Umb.Section.Content --example --cwd /tmp/create-umb-test"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.9.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "vitest": "^4.1.2",
+    "oxlint": "^1.58.0"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  // TypeScript — use the workspace's own TypeScript version
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Oxlint — use as the linter, disable any ESLint integration
+  "oxc.enable": true,
+  "eslint.enable": false,
+
+  // Editor — no formatter yet (oxfmt deferred until 1.0)
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "explicit"
+  },
+
+  // Vitest — auto-discover tests
+  "vitest.enable": true,
+
+  // Hide compiled output and deps from explorer and search
+  "files.exclude": {
+    "node_modules": true,
+    "dist": true
+  },
+  "search.exclude": {
+    "node_modules": true,
+    "dist": true,
+    "*.js.map": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // Run the CLI interactively with debugger attached.
+      // Uses integratedTerminal so @clack/prompts TTY input works correctly.
+      "name": "Debug CLI",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/dist/index.js",
+      "console": "integratedTerminal",
+      "preLaunchTask": "build",
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "sourceMaps": true
+    },
+    {
+      // Run CLI in dry-run mode — no files written, JSON output only.
+      // Useful for quickly verifying generator output without scaffolding.
+      "name": "Debug CLI (dry run)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/dist/index.js",
+      "args": [
+        "--type", "dashboard",
+        "--prefix", "Dev.Test",
+        "--name", "Test Dashboard",
+        "--umbraco-version", "17",
+        "--section", "Umb.Section.Content",
+        "--example",
+        "--dry-run",
+        "--json"
+      ],
+      "console": "integratedTerminal",
+      "preLaunchTask": "build",
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "sourceMaps": true
+    },
+    {
+      // Run all vitest tests with debugger attached.
+      // Use breakpoints in test files or source files.
+      "name": "Debug Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": ["run", "--reporter=verbose"],
+      "console": "integratedTerminal",
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "sourceMaps": true
+    }
+  ]
+}
