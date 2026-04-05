@@ -27,7 +27,7 @@
     "url": "https://github.com/warrenbuckley/create-umbraco-extension"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/copy-templates.mjs",
     "build:watch": "tsc --watch",
     "dev": "npm run build && node dist/index.js",
     "lint": "oxlint src/",

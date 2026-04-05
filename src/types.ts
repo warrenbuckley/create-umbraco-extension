@@ -118,5 +118,5 @@ export interface UmbracoExtensionGenerator {
    * @param answers - The object returned by `questions()`.
    * @param context - Resolved project-level context.
    */
-  generate: (answers: Record<string, unknown>, context: GeneratorContext) => GeneratedFile[];
+  generate: (answers: Record<string, unknown>, context: GeneratorContext) => Promise<GeneratedFile[]>;
 }

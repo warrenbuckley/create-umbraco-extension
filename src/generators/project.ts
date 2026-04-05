@@ -1,4 +1,5 @@
 import type { GeneratedFile } from '../types.js';
+import { loadTemplate, applyTemplate } from '../utils/template.js';
 
 /**
  * Generates the full file set for a new Umbraco backoffice extension project.
@@ -11,26 +12,48 @@ import type { GeneratedFile } from '../types.js';
  * @param packageVersion  - The `@umbraco-cms/backoffice` semver range, e.g. `"^17.0.0"`.
  * @returns               - All scaffold files, paths relative to the project output dir.
  */
-export function generateProject(
+export async function generateProject(
   projectName: string,
   aliasPrefix: string,
   packageVersion: string,
-): GeneratedFile[] {
+): Promise<GeneratedFile[]> {
   // Derive display name from aliasPrefix: "My.Plugin" → "My Plugin"
   const displayName = aliasPrefix.replace(/\./g, ' ');
+
+  const [viteConfig, bundleManifests, entrypointsManifest, entrypoint] = await Promise.all([
+    loadTemplate('project/vite.config.ts'),
+    loadTemplate('project/bundle.manifests.ts'),
+    loadTemplate('project/entrypoints-manifest.ts'),
+    loadTemplate('project/entrypoint.ts'),
+  ]);
 
   return [
     packageJson(projectName, packageVersion),
     tsconfig(),
-    viteConfig(projectName),
+    {
+      path: 'vite.config.ts',
+      content: applyTemplate(viteConfig, { PROJECT_NAME: projectName }),
+    },
     umbracoPackageJson(projectName, aliasPrefix, displayName),
-    bundleManifests(),
-    entrypointManifest(aliasPrefix, displayName),
-    entrypointElement(displayName),
+    {
+      path: 'src/bundle.manifests.ts',
+      content: bundleManifests,
+    },
+    {
+      path: 'src/entrypoints/manifest.ts',
+      content: applyTemplate(entrypointsManifest, {
+        ALIAS_PREFIX: aliasPrefix,
+        DISPLAY_NAME: displayName,
+      }),
+    },
+    {
+      path: 'src/entrypoints/entrypoint.ts',
+      content: applyTemplate(entrypoint, { DISPLAY_NAME: displayName }),
+    },
   ];
 }
 
-// ─── File templates ───────────────────────────────────────────────────────────
+// ─── JSON file generators (no templates needed) ───────────────────────────────
 
 function packageJson(projectName: string, packageVersion: string): GeneratedFile {
   return {
@@ -79,30 +102,6 @@ function tsconfig(): GeneratedFile {
   };
 }
 
-function viteConfig(projectName: string): GeneratedFile {
-  return {
-    path: 'vite.config.ts',
-    content: `import { defineConfig } from 'vite';
-
-export default defineConfig({
-  build: {
-    lib: {
-      entry: 'src/bundle.manifests.ts',
-      fileName: 'bundle.manifests',
-      formats: ['es'],
-    },
-    outDir: 'wwwroot/App_Plugins/${projectName}',
-    emptyOutDir: true,
-    sourcemap: true,
-    rollupOptions: {
-      external: [/^@umbraco/],
-    },
-  },
-});
-`,
-  };
-}
-
 function umbracoPackageJson(
   projectName: string,
   aliasPrefix: string,
@@ -127,49 +126,5 @@ function umbracoPackageJson(
       null,
       2,
     ) + '\n',
-  };
-}
-
-function bundleManifests(): GeneratedFile {
-  return {
-    path: 'src/bundle.manifests.ts',
-    content: `import type { UmbExtensionManifest } from '@umbraco-cms/backoffice/extension-api';
-import { manifests as entrypoints } from './entrypoints/manifest.js';
-
-export const manifests: UmbExtensionManifest[] = [
-  ...entrypoints,
-];
-`,
-  };
-}
-
-function entrypointManifest(aliasPrefix: string, displayName: string): GeneratedFile {
-  return {
-    path: 'src/entrypoints/manifest.ts',
-    content: `import type { UmbExtensionManifest } from '@umbraco-cms/backoffice/extension-api';
-
-export const manifests: UmbExtensionManifest[] = [
-  {
-    type: 'backofficeEntryPoint',
-    alias: '${aliasPrefix}.EntryPoint',
-    name: '${displayName} Entry Point',
-    js: () => import('./entrypoint.js'),
-  },
-];
-`,
-  };
-}
-
-function entrypointElement(displayName: string): GeneratedFile {
-  return {
-    path: 'src/entrypoints/entrypoint.ts',
-    content: `import type { UmbEntryPointOnInit } from '@umbraco-cms/backoffice/extension-api';
-
-// ${displayName} entry point — runs once when the backoffice loads this package.
-// Register contexts, import side-effectful modules, or set up global state here.
-export const onInit: UmbEntryPointOnInit = (_host, _extensionRegistry) => {
-  // TODO: initialise your extensions
-};
-`,
   };
 }
