@@ -91,24 +91,11 @@ The same `umbracoGenerator` discovery mechanism applies to `@umbraco-cms/backoff
 
 **Phase 3 (ecosystem):** Forms, Commerce, and community packages add `"umbracoGenerator"` to their own packages.
 
-## Fuzzy-search type selection (`src/utils/search-select.ts`)
+## Type selection
 
-With 39 types in the interactive list, a plain scrollable select is too long. A custom fuzzy-filter prompt is built on `@clack/core` primitives — same visual style as all other prompts, no new dependencies (`@clack/core` is already a peer dep of `@clack/prompts`).
+The extension type list uses `@clack/prompts` `select` directly — a plain scrollable list. Group C types are not shown — accessible via `--type` flag only.
 
-```
-◆  What extension type? (type to filter)
-│  > entity a_
-│
-│  ─── Umbraco CMS ──────────────────────
-│  ● Entity Action
-│  ○ Entity Bulk Action
-│  ○ Entity Create Option Action
-```
-
-- Typing filters in real-time (case-insensitive, matches anywhere in label)
-- Arrow keys navigate; Enter selects; Esc/Ctrl+C cancels
-- Group headers hide dynamically when no matches in that group
-- Group C types are not shown — accessible via `--type` flag only
+A fuzzy-filter / live-search prompt is planned for a future iteration once real-world usage patterns are established (e.g. how often users scroll past many types, whether third-party plugin grouping is commonly needed). The `cli.ts` call site is the right place to introduce it when the time comes.
 
 ## Grouped selection with third-party generators
 
