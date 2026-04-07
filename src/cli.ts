@@ -1,4 +1,5 @@
 import { resolve, join } from 'node:path';
+import { styleText } from 'node:util';
 import {
   intro,
   outro,
@@ -80,7 +81,9 @@ export async function runCLI(): Promise<void> {
 // ─── Interactive mode ─────────────────────────────────────────────────────────
 
 async function runInteractive(cwd: string, args: CliArgs): Promise<void> {
-  intro(`create-umbraco-extension — ${pickTagline()}`);
+  intro('create-umbraco-extension');
+  log.message('Welcome to the Umbraco extension generator!');
+  log.message(styleText(['yellow', 'italic'], pickTagline()), { spacing: 0 });
 
   const existingProject = await detectExistingProject(cwd);
 
@@ -127,7 +130,7 @@ async function interactiveNewProject(cwd: string, args: CliArgs): Promise<void> 
     await text({
       message: 'Project name',
       placeholder: 'my-plugin',
-      validate: (v) => (v.trim() ? undefined : 'Project name is required'),
+      validate: (v) => (v?.trim() ? undefined : 'Project name is required'),
     }),
   );
   const projectName = toKebabCase(rawProjectName);
@@ -144,7 +147,7 @@ async function interactiveNewProject(cwd: string, args: CliArgs): Promise<void> 
     await text({
       message: 'Alias prefix',
       initialValue: derivedPrefix,
-      validate: (v) => (v.trim() ? undefined : 'Alias prefix is required'),
+      validate: (v) => (v?.trim() ? undefined : 'Alias prefix is required'),
     }),
   );
 
@@ -178,7 +181,7 @@ async function interactiveNewProject(cwd: string, args: CliArgs): Promise<void> 
   let addAnother = true;
   while (addAnother) {
     await interactiveAddExtension(projectDir, projectName, args, normalisedPrefix);
-    addAnother = prompt(await confirm({ message: 'Add another extension?' }));
+    addAnother = prompt(await confirm({ message: 'Add another extension?', initialValue: false }));
   }
 
   // Detect which package manager invoked the CLI and offer to install
@@ -196,7 +199,7 @@ async function interactiveNewProject(cwd: string, args: CliArgs): Promise<void> 
       s.stop('Dependencies installed');
       installed = true;
     } catch {
-      s.stop('Installation failed — run it manually');
+      s.error('Installation failed — run it manually');
     }
   }
 
@@ -229,7 +232,7 @@ async function interactiveAddExtension(
     await text({
       message: 'Extension name',
       placeholder: 'My Dashboard',
-      validate: (v) => (v.trim() ? undefined : 'Extension name is required'),
+      validate: (v) => (v?.trim() ? undefined : 'Extension name is required'),
     }),
   );
 
@@ -239,7 +242,7 @@ async function interactiveAddExtension(
     await text({
       message: 'Alias prefix',
       placeholder: 'My.Plugin',
-      validate: (v) => (v.trim() ? undefined : 'Alias prefix is required'),
+      validate: (v) => (v?.trim() ? undefined : 'Alias prefix is required'),
     }),
   );
 

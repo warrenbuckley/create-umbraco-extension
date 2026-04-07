@@ -37,7 +37,7 @@
     "test:cli:write": "npm run build && node dist/index.js --type dashboard --prefix Dev.Test --name \"Test Dashboard\" --umbraco-version 17 --section Umb.Section.Content --example --cwd /tmp/create-umb-test"
   },
   "dependencies": {
-    "@clack/prompts": "^0.9.0"
+    "@clack/prompts": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "^25.5.2",
