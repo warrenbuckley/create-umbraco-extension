@@ -28,7 +28,7 @@ export async function generateProject(
   ]);
 
   return [
-    packageJson(projectName, packageVersion),
+    packageJson(packageVersion),
     tsconfig(),
     {
       path: 'vite.config.ts',
@@ -55,13 +55,12 @@ export async function generateProject(
 
 // ─── JSON file generators (no templates needed) ───────────────────────────────
 
-function packageJson(projectName: string, packageVersion: string): GeneratedFile {
+function packageJson(packageVersion: string): GeneratedFile {
   return {
     path: 'package.json',
     content: JSON.stringify(
       {
-        name: projectName,
-        version: '0.1.0',
+        private: true,
         type: 'module',
         scripts: {
           build: 'vite build',
