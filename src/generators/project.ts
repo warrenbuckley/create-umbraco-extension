@@ -17,15 +17,12 @@ export async function generateProject(
   aliasPrefix: string,
   packageVersion: string,
 ): Promise<GeneratedFile[]> {
-  // Derive display name from aliasPrefix: "My.Plugin" → "My Plugin"
-  const displayName = aliasPrefix.replace(/\./g, ' ');
-
-  const [viteConfig, bundleManifests, entrypointsManifest, entrypoint] = await Promise.all([
+  const [viteConfig, bundleManifests] = await Promise.all([
     loadTemplate('project/vite.config.ts'),
     loadTemplate('project/bundle.manifests.ts'),
-    loadTemplate('project/entrypoints-manifest.ts'),
-    loadTemplate('project/entrypoint.ts'),
   ]);
+
+  const displayName = aliasPrefix.replace(/\./g, ' ');
 
   return [
     packageJson(packageVersion),
@@ -38,17 +35,6 @@ export async function generateProject(
     {
       path: 'src/bundle.manifests.ts',
       content: bundleManifests,
-    },
-    {
-      path: 'src/entrypoints/manifest.ts',
-      content: applyTemplate(entrypointsManifest, {
-        ALIAS_PREFIX: aliasPrefix,
-        DISPLAY_NAME: displayName,
-      }),
-    },
-    {
-      path: 'src/entrypoints/entrypoint.ts',
-      content: applyTemplate(entrypoint, { DISPLAY_NAME: displayName }),
     },
   ];
 }
