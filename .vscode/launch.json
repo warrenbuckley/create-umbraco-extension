@@ -4,10 +4,11 @@
     {
       // Run the CLI interactively with debugger attached.
       // Uses integratedTerminal so @clack/prompts TTY input works correctly.
+      // Delegates to scripts/dev.mjs which resolves os.tmpdir() cross-platform.
       "name": "Debug CLI",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/dist/index.js",
+      "program": "${workspaceFolder}/scripts/dev.mjs",
       "console": "integratedTerminal",
       "preLaunchTask": "build",
       "outFiles": ["${workspaceFolder}/dist/**/*.js"],

@@ -29,7 +29,8 @@
   "scripts": {
     "build": "tsc && node scripts/copy-templates.mjs",
     "build:watch": "tsc --watch",
-    "dev": "npm run build && node dist/index.js",
+    "dev": "npm run build && node scripts/dev.mjs",
+    "dev:fresh": "npm run build && node scripts/dev.mjs --fresh",
     "lint": "oxlint src/",
     "test": "vitest run",
     "test:watch": "vitest",
