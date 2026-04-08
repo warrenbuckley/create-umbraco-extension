@@ -1,11 +1,16 @@
 {
   // TypeScript — use the workspace's own TypeScript version
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
 
   // Oxlint — use as the linter, disable any ESLint integration
   "oxc.enable": true,
   "eslint.enable": false,
+  "oxc.ignore": ["src/templates/**"],
+
+  // lit-plugin — disable for template files which contain {{TOKEN}} placeholders
+  // that are not valid custom element tag names or TypeScript syntax
+  "lit-plugin.rules.no-invalid-tag-name": "off",
 
   // Editor — no formatter yet (oxfmt deferred until 1.0)
   "editor.formatOnSave": false,

@@ -4,7 +4,5 @@
     "oxc.oxc-vscode",
     // Vitest — run and debug individual tests from the editor gutter
     "vitest.explorer",
-    // Error Lens — displays TypeScript and lint errors inline on the line
-    "usernamehw.errorlens"
   ]
 }
