@@ -6,7 +6,7 @@ export const manifests: UmbExtensionManifest[] = [
     alias: '{{ALIAS}}',
     name: '{{NAME}}',
     weight: 100,
-    api: () => import('./{{KEBAB_NAME}}.action.js'),
+    api: () => import('./{{KEBAB_NAME}}.action'),
     forEntityTypes: [], // TODO: add entity types, e.g. ['document']
     meta: {
       icon: 'icon-add',

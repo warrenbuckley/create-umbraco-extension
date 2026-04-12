@@ -5,7 +5,7 @@ export const manifests: UmbExtensionManifest[] = [
     type: 'dashboard',
     alias: '{{ALIAS}}',
     name: '{{NAME}}',
-    element: () => import('./{{KEBAB_NAME}}.element.js'),
+    element: () => import('./{{KEBAB_NAME}}.element'),
     meta: {
       label: '{{NAME}}',
       pathname: '{{KEBAB_NAME}}',
