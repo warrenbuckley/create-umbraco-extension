@@ -1,5 +1,6 @@
 import { resolve, join } from 'node:path';
 import { styleText } from 'node:util';
+import { createRequire } from 'node:module';
 import {
   intro,
   outro,
@@ -12,7 +13,7 @@ import {
   cancel,
   log,
 } from '@clack/prompts';
-import { pickTagline } from './taglines.js';
+import { pickIntroTagline, pickOutroTagline } from './taglines.js';
 import { detectExistingProject, detectAliasPrefix } from './detect.js';
 import { fetchUmbracoVersions } from './versions.js';
 import { discoverGenerators } from './discover.js';
@@ -24,6 +25,9 @@ import { normalisePrefix } from './utils/alias.js';
 import { toKebabCase } from './utils/strings.js';
 import { detectPackageManager, runInstall, nextStepsMessage } from './utils/package-manager.js';
 import type { GeneratorContext } from './types.js';
+
+const _require = createRequire(import.meta.url);
+const { version } = _require('../package.json') as { version: string };
 
 // ─── Argument parsing ─────────────────────────────────────────────────────────
 
@@ -82,8 +86,8 @@ export async function runCLI(): Promise<void> {
 
 async function runInteractive(cwd: string, args: CliArgs): Promise<void> {
   intro('create-umbraco-extension');
-  log.message('Welcome to the Umbraco extension generator!');
-  log.message(styleText(['yellow', 'italic'], pickTagline()), { spacing: 0 });
+  log.message(styleText(['yellow', 'italic'], pickIntroTagline()), { spacing: 0 });
+  log.message(styleText('dim', `version: ${version}`), { spacing: 0 });
 
   const existingProject = await detectExistingProject(cwd);
 
@@ -116,13 +120,16 @@ async function runInteractive(cwd: string, args: CliArgs): Promise<void> {
     }
   } catch (err) {
     if (err instanceof WriteAbortedError) {
+      log.error(err.message);
       outro('Scaffolding aborted — no further files written.');
       return;
     }
     throw err;
   }
 
-  if (!outroHandled) outro('Done! Happy coding.');
+  if (!outroHandled){
+    outro(styleText(['yellow', 'italic'], pickOutroTagline()));
+  }
 }
 
 async function interactiveNewProject(cwd: string, args: CliArgs): Promise<void> {
@@ -204,7 +211,7 @@ async function interactiveNewProject(cwd: string, args: CliArgs): Promise<void> 
   }
 
   note(nextStepsMessage(toKebabCase(projectName), pm, installed), 'Next steps');
-  outro('Happy coding!');
+  outro(styleText(['yellow', 'italic'], pickOutroTagline()));
 }
 
 async function interactiveAddExtension(
@@ -231,7 +238,6 @@ async function interactiveAddExtension(
   const extensionName = prompt(
     await text({
       message: 'Extension name',
-      placeholder: 'My Dashboard',
       validate: (v) => (v?.trim() ? undefined : 'Extension name is required'),
     }),
   );
