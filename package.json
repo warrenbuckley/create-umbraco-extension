@@ -1,6 +1,6 @@
 {
   "name": "create-umbraco-extension",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.1",
   "description": "Scaffold Umbraco backoffice extensions interactively",
   "type": "module",
   "bin": {
@@ -22,6 +22,9 @@
     "create"
   ],
   "license": "MIT",
+  "publishConfig": {
+    "tag": "alpha"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/warrenbuckley/create-umbraco-extension"
