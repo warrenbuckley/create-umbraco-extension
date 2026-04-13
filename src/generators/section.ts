@@ -23,7 +23,7 @@ const generator: UmbracoExtensionGenerator = {
 
     return [
       {
-        path: `src/sections/${kebabName}/manifest.ts`,
+        path: `src/sections/${kebabName}.manifest.ts`,
         content: applyTemplate(manifestTpl, {
           ALIAS: alias,
           NAME: extensionName,

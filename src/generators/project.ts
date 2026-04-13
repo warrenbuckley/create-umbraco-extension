@@ -17,9 +17,10 @@ export async function generateProject(
   aliasPrefix: string,
   packageVersion: string,
 ): Promise<GeneratedFile[]> {
-  const [viteConfig, bundleManifests] = await Promise.all([
+  const [viteConfig, bundleManifests, claudeMd] = await Promise.all([
     loadTemplate('project/vite.config.ts'),
     loadTemplate('project/bundle.manifests.ts'),
+    loadTemplate('project/claude.md'),
   ]);
 
   const displayName = aliasPrefix.replace(/\./g, ' ');
@@ -35,6 +36,14 @@ export async function generateProject(
     {
       path: 'src/bundle.manifests.ts',
       content: bundleManifests,
+    },
+    {
+      path: '.claude/CLAUDE.md',
+      content: applyTemplate(claudeMd, {
+        PROJECT_NAME: projectName,
+        ALIAS_PREFIX: aliasPrefix,
+        DISPLAY_NAME: displayName,
+      }),
     },
   ];
 }

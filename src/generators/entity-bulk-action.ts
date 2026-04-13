@@ -19,7 +19,7 @@ const generator: UmbracoExtensionGenerator = {
     const pascalName = toPascalCase(extensionName);
     const alias = toUmbracoAlias(aliasPrefix, 'EntityBulkAction', pascalName);
     const className = `${toPascalCase(aliasPrefix.replace(/\./g, ' '))}${pascalName}BulkAction`;
-    const dir = `src/entity-bulk-actions/${kebabName}`;
+    const dir = 'src/entity-bulk-actions';
 
     const [manifestTpl, actionTpl] = await Promise.all([
       loadTemplate('entity-bulk-action/manifest.ts', withExample),
@@ -28,7 +28,7 @@ const generator: UmbracoExtensionGenerator = {
 
     return [
       {
-        path: `${dir}/manifest.ts`,
+        path: `${dir}/${kebabName}.manifest.ts`,
         content: applyTemplate(manifestTpl, {
           ALIAS: alias,
           NAME: extensionName,

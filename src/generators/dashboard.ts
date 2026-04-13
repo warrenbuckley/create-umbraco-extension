@@ -21,7 +21,7 @@ const generator: UmbracoExtensionGenerator = {
     const tagPrefix = aliasPrefix.replace(/\./g, '-').toLowerCase();
     const tagName = `${tagPrefix}-${kebabName}`;
     const className = `${toPascalCase(aliasPrefix.replace(/\./g, ' '))}${pascalName}Element`;
-    const dir = `src/dashboards/${kebabName}`;
+    const dir = 'src/dashboards';
 
     const [manifestTpl, elementTpl] = await Promise.all([
       loadTemplate('dashboard/manifest.ts', withExample),
@@ -30,7 +30,7 @@ const generator: UmbracoExtensionGenerator = {
 
     return [
       {
-        path: `${dir}/manifest.ts`,
+        path: `${dir}/${kebabName}.manifest.ts`,
         content: applyTemplate(manifestTpl, {
           ALIAS: alias,
           NAME: extensionName,

@@ -5,7 +5,7 @@ import { toCamelCase } from './strings.js';
 export interface BundlePatchResult {
   /** Whether the file was actually modified. False on dry-run or if already registered. */
   patched: boolean;
-  /** The import path that was (or would be) added, e.g. `"./dashboards/my-dashboard/manifest.js"`. */
+  /** The import path that was (or would be) added, e.g. `"./dashboards/my-dashboard.manifest.js"`. */
   importPath: string;
   /** The import alias that was (or would be) used, e.g. `"myDashboard"`. */
   alias: string;
@@ -75,7 +75,10 @@ export async function patchBundleManifests(
     content = content.replace('= [];', `= [\n  ...${alias},\n];`);
   } else {
     const patched = content.split('\n');
-    const closingIndex = patched.findLastIndex(l => l.trim() === '];');
+    let closingIndex = -1;
+    for (let i = patched.length - 1; i >= 0; i--) {
+      if (patched[i].trim() === '];') { closingIndex = i; break; }
+    }
     if (closingIndex !== -1) {
       patched.splice(closingIndex, 0, `  ...${alias},`);
     }

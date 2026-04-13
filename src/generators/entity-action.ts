@@ -19,7 +19,7 @@ const generator: UmbracoExtensionGenerator = {
     const pascalName = toPascalCase(extensionName);
     const alias = toUmbracoAlias(aliasPrefix, 'EntityAction', pascalName);
     const className = `${toPascalCase(aliasPrefix.replace(/\./g, ' '))}${pascalName}Action`;
-    const dir = `src/entity-actions/${kebabName}`;
+    const dir = 'src/entity-actions';
 
     const [manifestTpl, actionTpl] = await Promise.all([
       loadTemplate('entity-action/manifest.ts', withExample),
@@ -28,7 +28,7 @@ const generator: UmbracoExtensionGenerator = {
 
     return [
       {
-        path: `${dir}/manifest.ts`,
+        path: `${dir}/${kebabName}.manifest.ts`,
         content: applyTemplate(manifestTpl, {
           ALIAS: alias,
           NAME: extensionName,
