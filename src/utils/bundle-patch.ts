@@ -29,15 +29,15 @@ export async function patchBundleManifests(
   manifestPath: string,
   dryRun: boolean,
 ): Promise<BundlePatchResult> {
-  // 'src/dashboards/my-dashboard/manifest.ts' → './dashboards/my-dashboard/manifest.js'
+  // 'src/dashboards/my-dashboard.manifest.ts' → './dashboards/my-dashboard.manifest.js'
   const importPath = './' + manifestPath
     .replace(/\\/g, '/')
     .replace(/^src\//, '')
     .replace(/\.ts$/, '.js');
 
-  // 'src/dashboards/my-dashboard/manifest.ts' → folder 'my-dashboard' → alias 'myDashboard'
-  const segments = manifestPath.replace(/\\/g, '/').split('/');
-  const alias = toCamelCase(segments.at(-2) ?? 'extension');
+  // 'src/dashboards/my-dashboard.manifest.ts' → 'my-dashboard' → 'myDashboard'
+  const fileName = manifestPath.replace(/\\/g, '/').split('/').at(-1) ?? 'extension';
+  const alias = toCamelCase(fileName.replace(/\.manifest\.ts$/, ''));
 
   if (dryRun) {
     return { patched: false, importPath, alias };
@@ -57,25 +57,31 @@ export async function patchBundleManifests(
     return { patched: false, importPath, alias };
   }
 
-  const lines = content.split('\n');
   const importStatement = `import { manifests as ${alias} } from '${importPath}';`;
 
-  // Find the last import line and the closing `];` — scan in one pass
+  // Insert import after the last existing import line
+  const lines = content.split('\n');
   let lastImportIndex = -1;
-  let closingIndex = -1;
   for (let i = 0; i < lines.length; i++) {
     if (lines[i].startsWith('import ')) lastImportIndex = i;
-    if (lines[i].trim() === '];') closingIndex = i;
-  }
-
-  // Insert bottom-first so the earlier index stays valid
-  if (closingIndex !== -1) {
-    lines.splice(closingIndex, 0, `  ...${alias},`);
   }
   if (lastImportIndex !== -1) {
     lines.splice(lastImportIndex + 1, 0, importStatement);
   }
+  content = lines.join('\n');
 
-  await writeFile(bundlePath, lines.join('\n'), 'utf-8');
+  // Insert spread into the manifests array — handle both `= [];` and multiline `= [\n  ...\n];`
+  if (content.includes('= [];')) {
+    content = content.replace('= [];', `= [\n  ...${alias},\n];`);
+  } else {
+    const patched = content.split('\n');
+    const closingIndex = patched.findLastIndex(l => l.trim() === '];');
+    if (closingIndex !== -1) {
+      patched.splice(closingIndex, 0, `  ...${alias},`);
+    }
+    content = patched.join('\n');
+  }
+
+  await writeFile(bundlePath, content, 'utf-8');
   return { patched: true, importPath, alias };
 }
