@@ -11,16 +11,13 @@ my-plugin/
 ├── vite.config.ts
 ├── public/
 │   └── umbraco-package.json
-└── src/
-    ├── bundle.manifests.ts
-    ├── entrypoints/
-    │   ├── manifest.ts
-    │   └── entrypoint.ts
-    └── extensions/
-        └── {first-extension}/
-            ├── manifests.ts
-            └── {extension}.element.ts
+├── src/
+│   └── bundle.manifests.ts
+└── .claude/
+    └── CLAUDE.md
 ```
+
+Extensions are **not** scaffolded as part of project creation. After the project files are written the CLI immediately enters the extension loop — the user adds one or more extensions interactively, each of which patches `src/bundle.manifests.ts` automatically.
 
 ## File purposes
 
@@ -30,9 +27,8 @@ my-plugin/
 | `tsconfig.json` | Strict TS, `experimentalDecorators`, `@umbraco-cms/backoffice/extension-types` |
 | `vite.config.ts` | ESM lib build, externalises `@umbraco*`, outputs to `wwwroot/App_Plugins/{Name}` |
 | `public/umbraco-package.json` | Bundle registration pointing to compiled JS |
-| `src/bundle.manifests.ts` | Entry point that spreads all extension manifests |
-| `src/entrypoints/manifest.ts` | `backofficeEntryPoint` manifest |
-| `src/entrypoints/entrypoint.ts` | `onInit` / `onUnload` lifecycle hooks |
+| `src/bundle.manifests.ts` | Empty manifest array — auto-patched as extensions are added |
+| `.claude/CLAUDE.md` | Claude Code context — project conventions and CLI usage |
 
 ## Scaffolded project toolchain (Vite 8)
 

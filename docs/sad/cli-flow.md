@@ -46,10 +46,9 @@ Triggered when no `@umbraco-cms/backoffice` dependency is found in the cwd `pack
    ✓ Created vite.config.ts
    ✓ Created public/umbraco-package.json
    ✓ Created src/bundle.manifests.ts
-   ✓ Created src/entrypoints/manifest.ts
-   ✓ Created src/entrypoints/entrypoint.ts
-   ✓ Created src/extensions/my-dashboard/manifests.ts
-   ✓ Created src/extensions/my-dashboard/my-dashboard.element.ts
+   ✓ Created .claude/CLAUDE.md
+   ✓ Created src/dashboards/my-dashboard.manifest.ts
+   ✓ Created src/dashboards/my-dashboard.element.ts
 │
 ◆  Add another extension?
 │  ● Yes
@@ -79,8 +78,8 @@ Triggered when `@umbraco-cms/backoffice` is found in the cwd `package.json`.
 ◆  Include a working example?
 │
 └─ Done!
-   ✓ Created src/extensions/delete-action/manifests.ts
-   ✓ Created src/extensions/delete-action/delete-action.ts
+   ✓ Created src/entity-actions/delete-action.manifest.ts
+   ✓ Created src/entity-actions/delete-action.action.ts
    ✓ Updated src/bundle.manifests.ts
 ```
 
