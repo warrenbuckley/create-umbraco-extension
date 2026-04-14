@@ -60,16 +60,17 @@ The CLI detects the existing project automatically and jumps straight to extensi
 | `vite.config.ts` | Vite build config — outputs to `wwwroot/App_Plugins/<name>/` |
 | `public/umbraco-package.json` | Umbraco package manifest registering the bundle extension |
 | `src/bundle.manifests.ts` | Top-level manifest aggregator (auto-patched when adding extensions) |
+| `.claude/CLAUDE.md` | Claude Code context — project conventions and CLI usage |
 
 ### Extension types
 
 | Type | Files generated |
 |------|----------------|
-| **Dashboard** | `src/dashboards/<name>/manifest.ts`, `<name>.element.ts` |
-| **Section** | `src/sections/<name>/manifest.ts` |
-| **Entity Action** | `src/entity-actions/<name>/manifest.ts`, `<name>.action.ts` |
-| **Entity Bulk Action** | `src/entity-bulk-actions/<name>/manifest.ts`, `<name>.action.ts` |
-| **Entity Create Option Action** | `src/entity-create-option-actions/<name>/manifest.ts`, `<name>.action.ts` |
+| **Dashboard** | `src/dashboards/<name>.manifest.ts`, `src/dashboards/<name>.element.ts` |
+| **Section** | `src/sections/<name>.manifest.ts` |
+| **Entity Action** | `src/entity-actions/<name>.manifest.ts`, `src/entity-actions/<name>.action.ts` |
+| **Entity Bulk Action** | `src/entity-bulk-actions/<name>.manifest.ts`, `src/entity-bulk-actions/<name>.action.ts` |
+| **Entity Create Option Action** | `src/entity-create-option-actions/<name>.manifest.ts`, `src/entity-create-option-actions/<name>.action.ts` |
 
 When adding an extension, `src/bundle.manifests.ts` is automatically patched to import and register it.
 
@@ -106,6 +107,7 @@ npx create-umbraco-extension \
 | `--dry-run` | Preview what would be written without touching the filesystem |
 | `--json` | Output machine-readable JSON (implies non-interactive) |
 | `--cwd` | Working directory (defaults to `process.cwd()`) |
+| `--help`, `-h` | Print usage information and exit |
 
 ### JSON output
 
@@ -118,8 +120,8 @@ npx create-umbraco-extension \
   "projectName": "my-plugin",
   "dryRun": false,
   "generated": [
-    { "path": "src/dashboards/my-dashboard/manifest.ts", "status": "created" },
-    { "path": "src/dashboards/my-dashboard/my-dashboard.element.ts", "status": "created" }
+    { "path": "src/dashboards/my-dashboard.manifest.ts", "status": "created" },
+    { "path": "src/dashboards/my-dashboard.element.ts", "status": "created" }
   ],
   "bundlePatched": true
 }
