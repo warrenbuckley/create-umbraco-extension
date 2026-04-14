@@ -42,8 +42,60 @@ interface CliArgs {
   cwd: string;
 }
 
+function printHelp(): void {
+  process.stdout.write(`
+create-umbraco-extension v${version}
+
+Scaffold a new Umbraco backoffice extension project, or add an extension
+type to an existing one.
+
+USAGE
+
+  Interactive (recommended):
+    npm create umbraco-extension@alpha
+
+  Non-interactive (CI / scripting / AI tools):
+    npx create-umbraco-extension@alpha --type <type> --name <name> --prefix <prefix> [options]
+
+FLAGS
+
+  --type <type>            Extension type to generate (see EXTENSION TYPES below)
+  --name <name>            Human-readable extension name  e.g. "My Dashboard"
+  --prefix <prefix>        Dot-separated alias prefix     e.g. My.Plugin
+  --umbraco-version <ver>  Umbraco major version number   e.g. 17
+  --example                Include a working example implementation
+  --dry-run                Preview files without writing to disk
+  --json                   Machine-readable JSON output (implies non-interactive)
+  --cwd <path>             Working directory (defaults to current directory)
+  --help                   Print this help message and exit
+
+EXTENSION TYPES
+
+  dashboard                 Tab shown inside a backoffice section
+  section                   Top-level navigation section
+  entityAction              Context menu action for a single entity
+  entityBulkAction          Toolbar action for multiple selected entities
+  entityCreateOptionAction  Option in the entity create dialog
+
+EXAMPLES
+
+  # Add a dashboard, with example code, without writing files:
+  npx create-umbraco-extension@alpha --type dashboard --name "Overview" --prefix My.Plugin --dry-run --example
+
+  # Add an entity action and output JSON (useful for AI tools):
+  npx create-umbraco-extension@alpha --type entityAction --name "Publish" --prefix My.Plugin --umbraco-version 17 --json
+
+`);
+}
+
 function parseArgs(): CliArgs {
   const argv = process.argv.slice(2);
+
+  if (argv.includes('--help') || argv.includes('-h')) {
+    printHelp();
+    process.exit(0);
+  }
+
   const args: CliArgs = {
     example: false,
     dryRun: false,

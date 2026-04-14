@@ -38,7 +38,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cli": "npm run build && node dist/index.js --type dashboard --prefix Dev.Test --name \"Test Dashboard\" --umbraco-version 17 --section Umb.Section.Content --example --dry-run --json",
-    "test:cli:write": "npm run build && node dist/index.js --type dashboard --prefix Dev.Test --name \"Test Dashboard\" --umbraco-version 17 --section Umb.Section.Content --example --cwd /tmp/create-umb-test"
+    "test:cli:write": "npm run build && node dist/index.js --type dashboard --prefix Dev.Test --name \"Test Dashboard\" --umbraco-version 17 --section Umb.Section.Content --example --cwd /tmp/create-umb-test",
+    "test:e2e": "npm run build && node scripts/test-e2e.mjs"
   },
   "dependencies": {
     "@clack/prompts": "^1.2.0"
