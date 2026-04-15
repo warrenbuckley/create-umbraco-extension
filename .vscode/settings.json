@@ -5,8 +5,6 @@
 
   // Oxlint — use as the linter, disable any ESLint integration
   "oxc.enable": true,
-  "eslint.enable": false,
-  "oxc.ignore": ["src/templates/**"],
 
   // lit-plugin — disable for template files which contain {{TOKEN}} placeholders
   // that are not valid custom element tag names or TypeScript syntax
