@@ -1,7 +1,7 @@
-import { execFile } from 'node:child_process';
+import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
 
-const execFileAsync = promisify(execFile);
+const execAsync = promisify(exec);
 
 /** A resolved Umbraco major version available for scaffolding. */
 export interface UmbracoVersion {
@@ -18,9 +18,7 @@ export interface UmbracoVersion {
  * Update this list when new Umbraco major versions are released.
  */
 const FALLBACK_VERSIONS: UmbracoVersion[] = [
-  { major: 17, label: '17 — latest', packageVersion: '^17.0.0' },
-  { major: 16, label: '16',          packageVersion: '^16.0.0' },
-  { major: 15, label: '15',          packageVersion: '^15.0.0' },
+  { major: 17, label: '17 — latest', packageVersion: '^17.0.0' }
 ];
 
 /**
@@ -34,12 +32,7 @@ const FALLBACK_VERSIONS: UmbracoVersion[] = [
  */
 export async function fetchUmbracoVersions(): Promise<UmbracoVersion[]> {
   try {
-    const { stdout } = await execFileAsync('npm', [
-      'view',
-      '@umbraco-cms/backoffice',
-      'dist-tags',
-      '--json',
-    ]);
+    const { stdout } = await execAsync('npm view @umbraco-cms/backoffice dist-tags --json');
 
     const distTags = JSON.parse(stdout) as Record<string, string>;
     const latestVersion = distTags['latest'] ?? '';
@@ -58,7 +51,9 @@ export async function fetchUmbracoVersions(): Promise<UmbracoVersion[]> {
     }
 
     return versions;
-  } catch {
+  } catch(err) {
+    console.error('ARGGH AN error', err);
+
     // npm unavailable, offline, or package not found — use the hardcoded fallback
     return FALLBACK_VERSIONS;
   }

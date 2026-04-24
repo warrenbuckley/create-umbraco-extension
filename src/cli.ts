@@ -197,46 +197,53 @@ async function interactiveNewProject(cwd: string, args: CliArgs): Promise<void> 
     log.info(`Project name normalised to: ${projectName}`);
   }
 
-  const derivedPrefix = projectName
-    .split('-')
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join('.');
-
-  const aliasPrefix = prompt(
-    await text({
-      message: 'Alias prefix',
-      initialValue: derivedPrefix,
-      validate: (v) => (v?.trim() ? undefined : 'Alias prefix is required'),
-    }),
-  );
-
-  const s = spinner();
-  s.start('Fetching Umbraco versions...');
-  const versions = await fetchUmbracoVersions();
-  s.stop('Umbraco versions loaded');
-
-  const packageVersion = prompt(
-    await select({
-      message: 'Umbraco version',
-      options: versions.map((v) => ({ value: v.packageVersion, label: v.label })),
-    }),
-  );
-
-  s.start('Generating project scaffold...');
-  const files = await generateProject(
-    projectName,
-    normalisePrefix(aliasPrefix),
-    packageVersion,
-  );
-  s.stop('Scaffold generated');
-
   // Scaffold into a subdirectory named after the project, e.g. cwd/my-plugin/
   const projectDir = join(cwd, toKebabCase(projectName));
-  const result = await writeFiles(files, projectDir, args.dryRun);
-  showWriteSummary(result, args.dryRun);
+
+  // If that subdirectory is already an Umbraco project, skip scaffolding entirely.
+  const alreadyExists = await detectExistingProject(projectDir);
+
+  let normalisedPrefix: string;
+
+  if (alreadyExists) {
+    log.info(`${toKebabCase(projectName)} is already an Umbraco project — skipping scaffold.`);
+    const detectedPrefix = await detectAliasPrefix(projectDir);
+    normalisedPrefix = detectedPrefix ?? normalisePrefix(projectName);
+  } else {
+    const derivedPrefix = projectName
+      .split('-')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join('.');
+
+    const aliasPrefix = prompt(
+      await text({
+        message: 'Alias prefix',
+        initialValue: derivedPrefix,
+        validate: (v) => (v?.trim() ? undefined : 'Alias prefix is required'),
+      }),
+    );
+    normalisedPrefix = normalisePrefix(aliasPrefix);
+
+    const s = spinner();
+    s.start('Fetching Umbraco versions...');
+    const versions = await fetchUmbracoVersions();
+    s.stop('Umbraco versions loaded');
+
+    const packageVersion = prompt(
+      await select({
+        message: 'Umbraco version',
+        options: versions.map((v) => ({ value: v.packageVersion, label: v.label })),
+      }),
+    );
+
+    s.start('Generating project scaffold...');
+    const files = await generateProject(projectName, normalisedPrefix, packageVersion);
+    s.stop('Scaffold generated');
+    const result = await writeFiles(files, projectDir, args.dryRun);
+    showWriteSummary(result, args.dryRun);
+  }
 
   // Immediately offer extension selection — no need to run the CLI again
-  const normalisedPrefix = normalisePrefix(aliasPrefix);
   let addAnother = true;
   while (addAnother) {
     await interactiveAddExtension(projectDir, projectName, args, normalisedPrefix);
@@ -257,8 +264,9 @@ async function interactiveNewProject(cwd: string, args: CliArgs): Promise<void> 
       await runInstall(projectDir, pm);
       s.stop('Dependencies installed');
       installed = true;
-    } catch {
-      s.error('Installation failed — run it manually');
+    } catch (err) {
+      const detail = (err as NodeJS.ErrnoException & { stderr?: string }).stderr?.trim();
+      s.error(detail ? `Installation failed:\n${detail}` : 'Installation failed — run it manually');
     }
   }
 
@@ -317,6 +325,7 @@ async function interactiveAddExtension(
   };
 
   const answers = await generator.questions(context);
+  if (answers === null) return;
 
   const s = spinner();
   s.start('Generating files...');
@@ -359,6 +368,8 @@ async function runNonInteractive(cwd: string, args: CliArgs): Promise<void> {
   };
 
   const answers = await generator.questions(context);
+  if (answers === null) return;
+
   const files = await generator.generate(answers, context);
   const result = await writeFiles(files, cwd, args.dryRun);
 

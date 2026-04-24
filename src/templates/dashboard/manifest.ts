@@ -6,9 +6,10 @@ export const manifests: UmbExtensionManifest[] = [
     alias: '{{ALIAS}}',
     name: '{{NAME}}',
     element: () => import('./{{KEBAB_NAME}}.element'),
+    weight: {{WEIGHT}},
     meta: {
-      label: '{{NAME}}',
-      pathname: '{{KEBAB_NAME}}',
-    },
+      label: '{{LABEL}}',
+      pathname: '{{PATHNAME}}',
+    },{{CONDITIONS}}
   },
 ];

@@ -108,7 +108,7 @@ export interface UmbracoExtensionGenerator {
    *
    * @param context - Resolved project-level context at the time of the prompt.
    */
-  questions: (context: GeneratorContext) => Promise<Record<string, unknown>>;
+  questions: (context: GeneratorContext) => Promise<Record<string, unknown> | null>;
 
   /**
    * Pure function that produces the files for this extension type.

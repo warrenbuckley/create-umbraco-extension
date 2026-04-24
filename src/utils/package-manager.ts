@@ -1,7 +1,7 @@
-import { execFile } from 'node:child_process';
+import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
 
-const execFileAsync = promisify(execFile);
+const execAsync = promisify(exec);
 
 export type PackageManager = 'npm' | 'pnpm' | 'yarn' | 'bun';
 
@@ -31,17 +31,12 @@ export function detectPackageManager(): PackageManagerInfo {
 
 /**
  * Runs the package manager's install command in the given directory.
- * Uses `execFile` (no shell) to avoid injection risk.
- *
- * On Windows, package manager CLIs are `.cmd` batch files rather than
- * executables, so the extension must be appended for `execFile` to find them.
+ * Uses `exec` so the OS shell resolves the package manager binary on all platforms.
  *
  * @throws When the install process exits with a non-zero code.
  */
 export async function runInstall(projectDir: string, pm: PackageManagerInfo): Promise<void> {
-  const [rawCmd, ...args] = pm.installCmd.split(' ');
-  const cmd = process.platform === 'win32' ? `${rawCmd}.cmd` : rawCmd;
-  await execFileAsync(cmd!, args, { cwd: projectDir });
+  await execAsync(pm.installCmd, { cwd: projectDir });
 }
 
 /**

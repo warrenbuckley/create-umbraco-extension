@@ -6,15 +6,10 @@ export const manifests: UmbExtensionManifest[] = [
     alias: '{{ALIAS}}',
     name: '{{NAME}}',
     element: () => import('./{{KEBAB_NAME}}.element'),
+    weight: {{WEIGHT}},
     meta: {
-      label: '{{NAME}}',
-      pathname: '{{KEBAB_NAME}}',
-    },
-    conditions: [
-      {
-        alias: 'Umb.Condition.SectionAlias',
-        match: 'Umb.Section.Content', // TODO: change to your target section alias
-      },
-    ],
+      label: '{{LABEL}}',
+      pathname: '{{PATHNAME}}',
+    },{{CONDITIONS}}
   },
 ];
