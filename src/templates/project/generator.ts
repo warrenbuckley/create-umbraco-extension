@@ -1,5 +1,5 @@
-import type { GeneratedFile } from '../types.js';
-import { loadTemplate, applyTemplate } from '../utils/template.js';
+import type { GeneratedFile } from '../../types.js';
+import { loadTemplate, applyTemplate } from '../../utils/template.js';
 
 /**
  * Generates the full file set for a new Umbraco backoffice extension project.
@@ -18,9 +18,9 @@ export async function generateProject(
   packageVersion: string,
 ): Promise<GeneratedFile[]> {
   const [viteConfig, bundleManifests, claudeMd] = await Promise.all([
-    loadTemplate('project/vite.config.ts'),
-    loadTemplate('project/bundle.manifests.ts'),
-    loadTemplate('project/claude.md'),
+    loadTemplate('project', 'vite.config.ts'),
+    loadTemplate('project', 'bundle.manifests.ts'),
+    loadTemplate('project', 'claude.md'),
   ]);
 
   const displayName = aliasPrefix.replace(/\./g, ' ');

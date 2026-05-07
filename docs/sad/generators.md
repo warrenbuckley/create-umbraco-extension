@@ -17,7 +17,7 @@ export interface UmbracoExtensionGenerator {
 
 Generator functions are **pure** — `generate()` takes answers and context and returns files with no side effects. This makes them straightforward to test without mocking.
 
-Built-in generators use `export default` to mirror the third-party plugin API exactly.
+Built-in generators live at `src/templates/{type}/generator.ts` and use `export default` to mirror the third-party plugin API exactly.
 
 ## Plugin auto-discovery (`src/discover.ts`)
 

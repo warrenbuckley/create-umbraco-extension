@@ -1,8 +1,8 @@
 import { text, confirm, multiselect, isCancel } from '@clack/prompts';
-import type { UmbracoExtensionGenerator, GeneratorContext } from '../types.js';
-import { toPascalCase, toKebabCase } from '../utils/strings.js';
-import { toUmbracoAlias } from '../utils/alias.js';
-import { loadTemplate, applyTemplate } from '../utils/template.js';
+import type { UmbracoExtensionGenerator, GeneratorContext } from '../../types.js';
+import { toPascalCase, toKebabCase } from '../../utils/strings.js';
+import { toUmbracoAlias } from '../../utils/alias.js';
+import { loadTemplate, applyTemplate } from '../../utils/template.js';
 
 const UMBRACO_SECTIONS = [
   { value: 'Umb.Section.Content',  label: 'Content' },
@@ -68,8 +68,8 @@ const generator: UmbracoExtensionGenerator = {
       : '';
 
     const [manifestTpl, elementTpl] = await Promise.all([
-      loadTemplate('dashboard/manifest.ts', withExample),
-      loadTemplate('dashboard/element.ts', withExample),
+      loadTemplate('dashboard', 'manifest.ts', withExample),
+      loadTemplate('dashboard', 'element.ts', withExample),
     ]);
 
     return [

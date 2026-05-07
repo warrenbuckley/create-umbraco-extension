@@ -1,12 +1,12 @@
-import type { UmbracoExtensionGenerator, GeneratorContext } from '../types.js';
-import { toPascalCase, toKebabCase } from '../utils/strings.js';
-import { toUmbracoAlias } from '../utils/alias.js';
-import { loadTemplate, applyTemplate } from '../utils/template.js';
+import type { UmbracoExtensionGenerator, GeneratorContext } from '../../types.js';
+import { toPascalCase, toKebabCase } from '../../utils/strings.js';
+import { toUmbracoAlias } from '../../utils/alias.js';
+import { loadTemplate, applyTemplate } from '../../utils/template.js';
 
 const generator: UmbracoExtensionGenerator = {
-  type: 'entityAction',
-  name: 'Entity Action',
-  description: 'A context menu action for a single entity',
+  type: 'entityBulkAction',
+  name: 'Entity Bulk Action',
+  description: 'A toolbar action for operating on multiple selected entities',
   group: 'Umbraco CMS',
 
   async questions(_context: GeneratorContext) {
@@ -17,13 +17,13 @@ const generator: UmbracoExtensionGenerator = {
     const { aliasPrefix, extensionName, withExample } = context;
     const kebabName = toKebabCase(extensionName);
     const pascalName = toPascalCase(extensionName);
-    const alias = toUmbracoAlias(aliasPrefix, 'EntityAction', pascalName);
-    const className = `${toPascalCase(aliasPrefix.replace(/\./g, ' '))}${pascalName}Action`;
-    const dir = 'src/entity-actions';
+    const alias = toUmbracoAlias(aliasPrefix, 'EntityBulkAction', pascalName);
+    const className = `${toPascalCase(aliasPrefix.replace(/\./g, ' '))}${pascalName}BulkAction`;
+    const dir = 'src/entity-bulk-actions';
 
     const [manifestTpl, actionTpl] = await Promise.all([
-      loadTemplate('entity-action/manifest.ts', withExample),
-      loadTemplate('entity-action/action.ts', withExample),
+      loadTemplate('entity-bulk-action', 'manifest.ts', withExample),
+      loadTemplate('entity-bulk-action', 'action.ts', withExample),
     ]);
 
     return [

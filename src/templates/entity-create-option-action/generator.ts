@@ -1,7 +1,7 @@
-import type { UmbracoExtensionGenerator, GeneratorContext } from '../types.js';
-import { toPascalCase, toKebabCase } from '../utils/strings.js';
-import { toUmbracoAlias } from '../utils/alias.js';
-import { loadTemplate, applyTemplate } from '../utils/template.js';
+import type { UmbracoExtensionGenerator, GeneratorContext } from '../../types.js';
+import { toPascalCase, toKebabCase } from '../../utils/strings.js';
+import { toUmbracoAlias } from '../../utils/alias.js';
+import { loadTemplate, applyTemplate } from '../../utils/template.js';
 
 const generator: UmbracoExtensionGenerator = {
   type: 'entityCreateOptionAction',
@@ -22,8 +22,8 @@ const generator: UmbracoExtensionGenerator = {
     const dir = 'src/entity-create-option-actions';
 
     const [manifestTpl, actionTpl] = await Promise.all([
-      loadTemplate('entity-create-option-action/manifest.ts', withExample),
-      loadTemplate('entity-create-option-action/action.ts', withExample),
+      loadTemplate('entity-create-option-action', 'manifest.ts', withExample),
+      loadTemplate('entity-create-option-action', 'action.ts', withExample),
     ]);
 
     return [

@@ -67,9 +67,9 @@ describe('dashboard generator', () => {
 
 | Module | Focus |
 |--------|-------|
-| `generators/dashboard.ts` | Alias, tag name, class name, `withExample` branching |
-| `generators/entity-action.ts` | Multi-entity-type output, permission condition |
-| `generators/project.ts` | All required scaffold files present, version in package.json |
+| `templates/dashboard/generator.ts` | Alias, tag name, class name, `withExample` branching |
+| `templates/entity-action/generator.ts` | Multi-entity-type output, permission condition |
+| `templates/project/generator.ts` | All required scaffold files present, version in package.json |
 | `utils/strings.ts` | `toPascalCase`, `toKebabCase`, `toUmbracoAlias` edge cases |
 | `utils/alias.ts` | Prefix normalisation, collision avoidance |
 | `detect.ts` | Returns name when backoffice in deps; null otherwise |

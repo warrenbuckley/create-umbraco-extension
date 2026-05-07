@@ -14,22 +14,27 @@ create-umbraco-extension/
 ├── docs/
 │   └── sad/                  # This Solution Architecture Document (not public)
 ├── src/
-│   ├── index.ts              # #!/usr/bin/env node — entry point
-│   ├── cli.ts                # Main orchestration: detect → version → ask → generate → loop
-│   ├── detect.ts             # Detect existing Umbraco project in cwd
-│   ├── discover.ts           # Plugin auto-discovery from node_modules
-│   ├── versions.ts           # Fetch @umbraco-cms/backoffice dist-tags from npm
-│   ├── taglines.ts           # Random tagline pool for the welcome banner
-│   ├── types.ts              # Public interfaces (exported as ./types)
-│   ├── generators/
-│   │   ├── index.ts          # Aggregates all built-in generators
-│   │   ├── project.ts        # New project scaffold
-│   │   └── *.ts              # One file per Group A extension type
+│   ├── index.ts                  # #!/usr/bin/env node — entry point
+│   ├── cli.ts                    # Main orchestration: detect → version → ask → generate → loop
+│   ├── detect.ts                 # Detect existing Umbraco project in cwd
+│   ├── discover.ts               # Plugin auto-discovery from node_modules
+│   ├── builtin-generators.ts     # Registry of all built-in generators
+│   ├── versions.ts               # Fetch @umbraco-cms/backoffice dist-tags from npm
+│   ├── taglines.ts               # Random tagline pool for the welcome banner
+│   ├── types.ts                  # Public interfaces (exported as ./types)
+│   ├── templates/
+│   │   ├── project/
+│   │   │   ├── generator.ts      # New project scaffold (not a UmbracoExtensionGenerator)
+│   │   │   └── scaffold/         # Project template files (vite.config.ts, etc.)
+│   │   └── {type}/               # One folder per extension type, e.g. dashboard/
+│   │       ├── generator.ts      # UmbracoExtensionGenerator implementation
+│   │       ├── scaffold/         # Base template files (manifest.ts, element.ts, etc.)
+│   │       └── example/          # Richer example variants (optional per-file override)
 │   └── utils/
-│       ├── write-files.ts    # File writing with per-file conflict prompt
-│       ├── search-select.ts  # Fuzzy-filter prompt (@clack/core)
-│       ├── strings.ts        # camelCase, PascalCase, kebab-case helpers
-│       └── alias.ts          # Umbraco alias generation (My.Plugin.Dashboard)
+│       ├── write-files.ts        # File writing with per-file conflict prompt
+│       ├── search-select.ts      # Fuzzy-filter prompt (@clack/core)
+│       ├── strings.ts            # camelCase, PascalCase, kebab-case helpers
+│       └── alias.ts              # Umbraco alias generation (My.Plugin.Dashboard)
 ├── skill.md                  # Claude Code / AI agent skill descriptor
 ├── CLAUDE.md                 # AI assistant working rules for this repo
 ├── CONTRIBUTING.md           # Contributor guide (added later)
@@ -70,7 +75,7 @@ export interface UmbracoExtensionGenerator {
 
 ## Export convention
 
-- **Generators** (`src/generators/*.ts`): `export default` — mirrors the third-party plugin API
+- **Generators** (`src/templates/*/generator.ts`): `export default` — mirrors the third-party plugin API
 - **Everything else** (`src/utils/`, `src/detect.ts`, etc.): named exports
 
 ## Key design decisions
