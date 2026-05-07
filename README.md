@@ -8,6 +8,96 @@ npm init umbraco-extension
 
 ---
 
+## Generator status
+
+### Group A — Common types (interactive list, full prompts + example mode)
+
+- [x] `dashboard`
+- [x] `section`
+- [x] `entityAction`
+- [x] `entityBulkAction`
+- [x] `entityCreateOptionAction`
+- [ ] `propertyEditorUi`
+- [ ] `propertyEditorSchema`
+- [ ] `workspace`
+- [ ] `workspaceView`
+- [ ] `workspaceAction`
+- [ ] `tree`
+- [ ] `treeItem`
+- [ ] `collection`
+- [ ] `collectionView`
+- [ ] `collectionAction`
+- [ ] `modal`
+- [ ] `menu`
+- [ ] `menuItem`
+- [ ] `headerApp`
+- [ ] `backofficeEntryPoint`
+
+### Group B — Infrastructure types (interactive list, minimal prompts)
+
+- [ ] `repository`
+- [ ] `store`
+- [ ] `itemStore`
+- [ ] `globalContext`
+- [ ] `sectionSidebarApp`
+- [ ] `sectionView`
+- [ ] `sectionRoute`
+- [ ] `propertyAction`
+- [ ] `propertyEditorDataSource`
+- [ ] `searchProvider`
+- [ ] `searchResultItem`
+- [ ] `localization`
+- [ ] `icons`
+- [ ] `theme`
+- [ ] `previewApp`
+- [ ] `authProvider`
+- [ ] `externalLoginProvider`
+- [ ] `mfaLoginProvider`
+- [ ] `healthCheck`
+- [ ] `packageView`
+- [ ] `userProfileApp`
+- [ ] `userGranularPermission`
+- [ ] `currentUserAction`
+- [ ] `fileUploadPreview`
+- [ ] `collectionMenuItem`
+- [ ] `collectionMenu`
+- [ ] `collectionTextFilter`
+- [ ] `dynamicRootOrigin`
+- [ ] `dynamicRootQueryStep`
+- [ ] `tiptapExtension`
+- [ ] `tiptapStatusbarExtension`
+- [ ] `tiptapToolbarExtension`
+- [ ] `ufmComponent`
+- [ ] `monacoMarkdownEditorAction`
+
+### Group C — Advanced types (`--type` flag only, not shown in interactive list)
+
+- [ ] `workspaceContext`
+- [ ] `workspaceFooterApp`
+- [ ] `workspaceActionMenuItem`
+- [ ] `propertyContext`
+- [ ] `propertyValuePreset`
+- [ ] `propertyValueResolver`
+- [ ] `propertyValueCloner`
+- [ ] `propertyValidationPathTranslator`
+- [ ] `globalSearch`
+- [ ] `sectionContext`
+- [ ] `pickerSearchResultItem`
+- [ ] `entityItemRef`
+- [ ] `entityCollectionItemCard`
+- [ ] `entityCollectionItemRef`
+- [ ] `entitySign`
+- [ ] `entityUserPermission`
+- [ ] `auditLogAction`
+- [ ] `clipboardCopyPropertyValueTranslator`
+- [ ] `clipboardPastePropertyValueTranslator`
+- [ ] `dataSourceDataMapping`
+- [ ] `appEntryPoint`
+- [ ] `markedExtension`
+- [ ] `ufmFilter`
+
+---
+
 ## Requirements
 
 - Node.js ≥ 20.19.0
