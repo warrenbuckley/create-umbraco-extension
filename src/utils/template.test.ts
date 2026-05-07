@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { applyTemplate } from './template.js';
+import { applyTemplate, loadTemplate } from './template.js';
 
 describe('applyTemplate', () => {
   it('replaces a single token', () => {
@@ -30,5 +30,36 @@ describe('applyTemplate', () => {
   it('handles token adjacent to other text', () => {
     expect(applyTemplate('./{{KEBAB_NAME}}.element', { KEBAB_NAME: 'my-dashboard' }))
       .toBe('./my-dashboard.element');
+  });
+});
+
+describe('loadTemplate', () => {
+  it('loads a scaffold template and returns its content', async () => {
+    const content = await loadTemplate('dashboard', 'manifest.ts');
+    expect(content).toContain('{{ALIAS}}');
+    expect(content).toContain('{{NAME}}');
+  });
+
+  it('loads scaffold when withExample is false', async () => {
+    const content = await loadTemplate('dashboard', 'element.ts', false);
+    expect(content).toContain('{{CLASS_NAME}}');
+    expect(content).toContain('{{TAG_NAME}}');
+  });
+
+  it('loads the example variant when withExample is true and example exists', async () => {
+    const scaffold = await loadTemplate('dashboard', 'element.ts', false);
+    const example = await loadTemplate('dashboard', 'element.ts', true);
+    expect(example).not.toBe(scaffold);
+  });
+
+  it('falls back to scaffold when no example variant exists for that type', async () => {
+    // project/ has no example/ directory — withExample=true must return the scaffold
+    const scaffold = await loadTemplate('project', 'vite.config.ts', false);
+    const withExample = await loadTemplate('project', 'vite.config.ts', true);
+    expect(withExample).toBe(scaffold);
+  });
+
+  it('rejects when the requested file does not exist', async () => {
+    await expect(loadTemplate('dashboard', 'nonexistent.ts')).rejects.toThrow();
   });
 });

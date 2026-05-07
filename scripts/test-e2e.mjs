@@ -59,7 +59,7 @@ ok(`Clean dir: ${E2E_DIR}`);
 
 // ── Step 1: Scaffold new project ──────────────────────────────────────────────
 step('Scaffolding new project via generateProject()');
-const { generateProject } = await import('../dist/generators/project.js');
+const { generateProject } = await import('../dist/templates/project/generator.js');
 const files = await generateProject(PROJECT_NAME, ALIAS_PREFIX, `^${UMBRACO_VERSION}.0.0`);
 
 for (const file of files) {
