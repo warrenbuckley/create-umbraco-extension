@@ -22,8 +22,8 @@ const generator: UmbracoExtensionGenerator = {
     const dir = 'src/entity-create-option-actions';
 
     const [manifestTpl, actionTpl] = await Promise.all([
-      loadTemplate('entity-create-option-action/manifest.ts', withExample),
-      loadTemplate('entity-create-option-action/action.ts', withExample),
+      loadTemplate('entity-create-option-action', 'manifest.ts', withExample),
+      loadTemplate('entity-create-option-action', 'action.ts', withExample),
     ]);
 
     return [

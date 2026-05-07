@@ -22,8 +22,8 @@ const generator: UmbracoExtensionGenerator = {
     const dir = 'src/entity-actions';
 
     const [manifestTpl, actionTpl] = await Promise.all([
-      loadTemplate('entity-action/manifest.ts', withExample),
-      loadTemplate('entity-action/action.ts', withExample),
+      loadTemplate('entity-action', 'manifest.ts', withExample),
+      loadTemplate('entity-action', 'action.ts', withExample),
     ]);
 
     return [

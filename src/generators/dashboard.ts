@@ -68,8 +68,8 @@ const generator: UmbracoExtensionGenerator = {
       : '';
 
     const [manifestTpl, elementTpl] = await Promise.all([
-      loadTemplate('dashboard/manifest.ts', withExample),
-      loadTemplate('dashboard/element.ts', withExample),
+      loadTemplate('dashboard', 'manifest.ts', withExample),
+      loadTemplate('dashboard', 'element.ts', withExample),
     ]);
 
     return [

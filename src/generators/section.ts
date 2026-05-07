@@ -19,7 +19,7 @@ const generator: UmbracoExtensionGenerator = {
     const pascalName = toPascalCase(extensionName);
     const alias = toUmbracoAlias(aliasPrefix, 'Section', pascalName);
 
-    const manifestTpl = await loadTemplate('section/manifest.ts', withExample);
+    const manifestTpl = await loadTemplate('section', 'manifest.ts', withExample);
 
     return [
       {

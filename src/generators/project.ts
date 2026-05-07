@@ -18,9 +18,9 @@ export async function generateProject(
   packageVersion: string,
 ): Promise<GeneratedFile[]> {
   const [viteConfig, bundleManifests, claudeMd] = await Promise.all([
-    loadTemplate('project/vite.config.ts'),
-    loadTemplate('project/bundle.manifests.ts'),
-    loadTemplate('project/claude.md'),
+    loadTemplate('project', 'vite.config.ts'),
+    loadTemplate('project', 'bundle.manifests.ts'),
+    loadTemplate('project', 'claude.md'),
   ]);
 
   const displayName = aliasPrefix.replace(/\./g, ' ');
