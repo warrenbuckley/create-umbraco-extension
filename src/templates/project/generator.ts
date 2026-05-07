@@ -1,5 +1,5 @@
-import type { GeneratedFile } from '../types.js';
-import { loadTemplate, applyTemplate } from '../utils/template.js';
+import type { GeneratedFile } from '../../types.js';
+import { loadTemplate, applyTemplate } from '../../utils/template.js';
 
 /**
  * Generates the full file set for a new Umbraco backoffice extension project.

@@ -1,12 +1,12 @@
-import type { UmbracoExtensionGenerator, GeneratorContext } from '../types.js';
-import { toPascalCase, toKebabCase } from '../utils/strings.js';
-import { toUmbracoAlias } from '../utils/alias.js';
-import { loadTemplate, applyTemplate } from '../utils/template.js';
+import type { UmbracoExtensionGenerator, GeneratorContext } from '../../types.js';
+import { toPascalCase, toKebabCase } from '../../utils/strings.js';
+import { toUmbracoAlias } from '../../utils/alias.js';
+import { loadTemplate, applyTemplate } from '../../utils/template.js';
 
 const generator: UmbracoExtensionGenerator = {
-  type: 'entityCreateOptionAction',
-  name: 'Entity Create Option Action',
-  description: 'An option shown in the create dialog for an entity type',
+  type: 'entityAction',
+  name: 'Entity Action',
+  description: 'A context menu action for a single entity',
   group: 'Umbraco CMS',
 
   async questions(_context: GeneratorContext) {
@@ -17,13 +17,13 @@ const generator: UmbracoExtensionGenerator = {
     const { aliasPrefix, extensionName, withExample } = context;
     const kebabName = toKebabCase(extensionName);
     const pascalName = toPascalCase(extensionName);
-    const alias = toUmbracoAlias(aliasPrefix, 'EntityCreateOptionAction', pascalName);
-    const className = `${toPascalCase(aliasPrefix.replace(/\./g, ' '))}${pascalName}CreateOptionAction`;
-    const dir = 'src/entity-create-option-actions';
+    const alias = toUmbracoAlias(aliasPrefix, 'EntityAction', pascalName);
+    const className = `${toPascalCase(aliasPrefix.replace(/\./g, ' '))}${pascalName}Action`;
+    const dir = 'src/entity-actions';
 
     const [manifestTpl, actionTpl] = await Promise.all([
-      loadTemplate('entity-create-option-action', 'manifest.ts', withExample),
-      loadTemplate('entity-create-option-action', 'action.ts', withExample),
+      loadTemplate('entity-action', 'manifest.ts', withExample),
+      loadTemplate('entity-action', 'action.ts', withExample),
     ]);
 
     return [

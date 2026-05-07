@@ -1,12 +1,12 @@
-import type { UmbracoExtensionGenerator, GeneratorContext } from '../types.js';
-import { toPascalCase, toKebabCase } from '../utils/strings.js';
-import { toUmbracoAlias } from '../utils/alias.js';
-import { loadTemplate, applyTemplate } from '../utils/template.js';
+import type { UmbracoExtensionGenerator, GeneratorContext } from '../../types.js';
+import { toPascalCase, toKebabCase } from '../../utils/strings.js';
+import { toUmbracoAlias } from '../../utils/alias.js';
+import { loadTemplate, applyTemplate } from '../../utils/template.js';
 
 const generator: UmbracoExtensionGenerator = {
-  type: 'entityBulkAction',
-  name: 'Entity Bulk Action',
-  description: 'A toolbar action for operating on multiple selected entities',
+  type: 'entityCreateOptionAction',
+  name: 'Entity Create Option Action',
+  description: 'An option shown in the create dialog for an entity type',
   group: 'Umbraco CMS',
 
   async questions(_context: GeneratorContext) {
@@ -17,13 +17,13 @@ const generator: UmbracoExtensionGenerator = {
     const { aliasPrefix, extensionName, withExample } = context;
     const kebabName = toKebabCase(extensionName);
     const pascalName = toPascalCase(extensionName);
-    const alias = toUmbracoAlias(aliasPrefix, 'EntityBulkAction', pascalName);
-    const className = `${toPascalCase(aliasPrefix.replace(/\./g, ' '))}${pascalName}BulkAction`;
-    const dir = 'src/entity-bulk-actions';
+    const alias = toUmbracoAlias(aliasPrefix, 'EntityCreateOptionAction', pascalName);
+    const className = `${toPascalCase(aliasPrefix.replace(/\./g, ' '))}${pascalName}CreateOptionAction`;
+    const dir = 'src/entity-create-option-actions';
 
     const [manifestTpl, actionTpl] = await Promise.all([
-      loadTemplate('entity-bulk-action', 'manifest.ts', withExample),
-      loadTemplate('entity-bulk-action', 'action.ts', withExample),
+      loadTemplate('entity-create-option-action', 'manifest.ts', withExample),
+      loadTemplate('entity-create-option-action', 'action.ts', withExample),
     ]);
 
     return [

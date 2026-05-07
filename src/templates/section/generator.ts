@@ -1,7 +1,7 @@
-import type { UmbracoExtensionGenerator, GeneratorContext } from '../types.js';
-import { toPascalCase, toKebabCase } from '../utils/strings.js';
-import { toUmbracoAlias } from '../utils/alias.js';
-import { loadTemplate, applyTemplate } from '../utils/template.js';
+import type { UmbracoExtensionGenerator, GeneratorContext } from '../../types.js';
+import { toPascalCase, toKebabCase } from '../../utils/strings.js';
+import { toUmbracoAlias } from '../../utils/alias.js';
+import { loadTemplate, applyTemplate } from '../../utils/template.js';
 
 const generator: UmbracoExtensionGenerator = {
   type: 'section',
