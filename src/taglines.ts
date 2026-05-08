@@ -9,7 +9,7 @@ export const introTaglines: ReadonlyArray<string> = [
 export const outroTaglines: ReadonlyArray<string> = [
   'Happy coding',
   "We've done the legwork, go do the real work",
-  "Go and convert coffee in to code!"
+  'Go and convert coffee in to code!'
 ];
 
 export function pickIntroTagline(): string {
