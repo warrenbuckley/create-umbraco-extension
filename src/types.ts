@@ -102,6 +102,13 @@ export interface UmbracoExtensionGenerator {
   group?: string;
 
   /**
+   * Whether this generator ships an example template variant.
+   * When `false` the CLI skips the "Include a working example?" prompt.
+   * Defaults to `true` when omitted.
+   */
+  hasExample?: boolean;
+
+  /**
    * Collects type-specific answers from the user via `@clack/prompts`.
    * Called after the shared project-level prompts have been resolved.
    * The returned object is passed directly to `generate()` as `answers`.

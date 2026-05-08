@@ -1,15 +1,14 @@
-import type { UmbExtensionManifest } from '@umbraco-cms/backoffice/extension-api';
-
 export const manifests: UmbExtensionManifest[] = [
   {
     type: 'section',
     alias: '{{ALIAS}}',
     name: '{{NAME}}',
+    weight: {{WEIGHT}},
     meta: {
-      label: '{{NAME}}',
-      pathname: '{{KEBAB_NAME}}',
+      label: '{{LABEL}}',
+      pathname: '{{PATHNAME}}',
     },
   },
 ];
 
-// Remember to grant access to this section via Users → User Groups in the backoffice.
+// Grant access to this section via Users → User Groups → Allowed sections in the backoffice.

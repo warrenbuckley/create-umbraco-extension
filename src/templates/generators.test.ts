@@ -69,18 +69,32 @@ describe('dashboard generator', () => {
 // ─── Section ─────────────────────────────────────────────────────────────────
 
 describe('section generator', () => {
+  const answers = { label: 'My Section', pathname: 'my-section', weight: 200 };
+
   it('generates exactly 1 file', async () => {
-    const files = await section.generate({}, ctx('My Section'));
+    const files = await section.generate(answers, ctx('My Section'));
     expect(files).toHaveLength(1);
   });
 
   it('outputs the manifest into src/sections/ with a kebab-case name', async () => {
-    const files = await section.generate({}, ctx('My Section'));
+    const files = await section.generate(answers, ctx('My Section'));
     expect(files[0].path).toBe('src/sections/my-section.manifest.ts');
   });
 
+  it('manifest contains the correct Umbraco alias', async () => {
+    const files = await section.generate(answers, ctx('My Section'));
+    expect(files[0].content).toContain('My.Plugin.Section.MySection');
+  });
+
+  it('manifest reflects the provided label, pathname, and weight', async () => {
+    const files = await section.generate(answers, ctx('My Section'));
+    expect(files[0].content).toContain("'My Section'");
+    expect(files[0].content).toContain("'my-section'");
+    expect(files[0].content).toContain('200');
+  });
+
   it('leaves no unfilled tokens', async () => {
-    const files = await section.generate({}, ctx('My Section'));
+    const files = await section.generate(answers, ctx('My Section'));
     noUnfilledTokens(files[0].content);
   });
 });
