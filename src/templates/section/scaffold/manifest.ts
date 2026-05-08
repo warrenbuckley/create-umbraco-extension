@@ -1,5 +1,3 @@
-import type { UmbExtensionManifest } from '@umbraco-cms/backoffice/extension-api';
-
 export const manifests: UmbExtensionManifest[] = [
   {
     type: 'section',
