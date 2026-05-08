@@ -334,7 +334,7 @@ async function interactiveAddExtension(
 
   const result = await writeFiles(files, cwd, args.dryRun);
 
-  const manifestFile = files.find((f) => f.path.endsWith('/manifest.ts'));
+  const manifestFile = files.find((f) => f.path.endsWith('.manifest.ts'));
   if (manifestFile) {
     const patch = await patchBundleManifests(cwd, manifestFile.path, args.dryRun);
     if (patch.patched) log.success('Registered in src/bundle.manifests.ts');
@@ -373,7 +373,7 @@ async function runNonInteractive(cwd: string, args: CliArgs): Promise<void> {
   const files = await generator.generate(answers, context);
   const result = await writeFiles(files, cwd, args.dryRun);
 
-  const manifestFile = files.find((f) => f.path.endsWith('/manifest.ts'));
+  const manifestFile = files.find((f) => f.path.endsWith('.manifest.ts'));
   let bundlePatched = false;
   if (manifestFile) {
     const patch = await patchBundleManifests(cwd, manifestFile.path, args.dryRun);
