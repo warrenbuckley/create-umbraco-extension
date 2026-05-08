@@ -3,12 +3,16 @@ export const introTaglines: ReadonlyArray<string> = [
   "Because life's too short to write vite.config.ts by hand.",
   'More Umbraco, less Urgh-mbraco',
   'The rabbit is hard at work.',
-  "Eric's mum says hi"
+  "Eric's mum says hi",
+  "Opening the backoffice toolbox. Mind your fingers.",
+  "Telling node_modules this is not about them."
 ];
 
 export const outroTaglines: ReadonlyArray<string> = [
   'Happy coding',
-  "We've done the legwork, go do the real work"
+  "We've done the legwork, go do the real work",
+  "All done. May your manifests be valid and your builds be green.",
+  "Extension scaffolded. Coffee now permitted.
 ];
 
 export function pickIntroTagline(): string {
