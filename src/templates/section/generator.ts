@@ -11,12 +11,16 @@ const generator: UmbracoExtensionGenerator = {
   group: 'Umbraco CMS',
 
   async questions(context: GeneratorContext) {
-    const label = await text({ message: 'Section label (shown in backoffice nav)?' });
+    const label = await text({
+      message: 'Section label (shown in backoffice nav)?',
+      validate: (v) => (!v || v.trim() === '' ? 'Label is required' : undefined),
+    });
     if (isCancel(label)) return null;
 
     const pathname = await text({
       message: 'Section pathname (URL path segment)?',
       placeholder: toKebabCase(context.extensionName),
+      validate: (v) => (!v || v.trim() === '' ? 'Pathname is required' : undefined),
     });
     if (isCancel(pathname)) return null;
 
