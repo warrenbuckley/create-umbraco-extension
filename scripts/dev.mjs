@@ -15,6 +15,8 @@ if (fresh) {
   rmSync(devDir, { recursive: true, force: true });
 }
 
+console.log('\x1b[2m[DEBUG] Output directory:', devDir, '\x1b[0m');
+
 const node = process.execPath;
 const cli = join(import.meta.dirname, '..', 'dist', 'index.js');
 
