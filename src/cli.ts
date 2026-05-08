@@ -312,9 +312,9 @@ async function interactiveAddExtension(
     }),
   );
 
-  const withExample = prompt(
-    await confirm({ message: 'Include a working example implementation?' }),
-  );
+  const withExample = (generator.hasExample ?? true)
+    ? prompt(await confirm({ message: 'Include a working example implementation?' }))
+    : false;
 
   const context: GeneratorContext = {
     projectName,

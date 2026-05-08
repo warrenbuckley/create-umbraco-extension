@@ -9,6 +9,7 @@ const generator: UmbracoExtensionGenerator = {
   name: 'Section',
   description: 'A top-level navigation section in the backoffice',
   group: 'Umbraco CMS',
+  hasExample: false,
 
   async questions(context: GeneratorContext) {
     const label = await text({
