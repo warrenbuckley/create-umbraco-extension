@@ -12,7 +12,8 @@ export const outroTaglines: ReadonlyArray<string> = [
   'Happy coding',
   "We've done the legwork, go do the real work",
   "All done. May your manifests be valid and your builds be green.",
-  "Extension scaffolded. Coffee now permitted.
+  "Extension scaffolded. Coffee now permitted.",
+  "Go and convert coffee in to code!"
 ];
 
 export function pickIntroTagline(): string {
