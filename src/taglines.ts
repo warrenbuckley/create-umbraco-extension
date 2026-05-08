@@ -7,7 +7,8 @@ export const introTaglines: ReadonlyArray<string> = [
   "Opening the backoffice toolbox. Mind your fingers.",
   "Telling node_modules this is not about them.",
   'double-quoting the single quotes',
-  'Reticulating nodes'
+  'Reticulating nodes',
+  "What time is it? It's Hammerschlagen time!"
 ];
 
 export const outroTaglines: ReadonlyArray<string> = [
@@ -16,7 +17,8 @@ export const outroTaglines: ReadonlyArray<string> = [
   "All done. May your manifests be valid and your builds be green.",
   "Extension scaffolded. Coffee now permitted.",
   "Go and convert coffee in to code!",
-  "Nodes successfully reticulated."
+  "Nodes successfully reticulated.",
+  "Skol! Super Skol!!"
 ];
 
 export function pickIntroTagline(): string {
